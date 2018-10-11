@@ -1,0 +1,314 @@
+<presentation slides="41">
+    <symbol name="title1">Scaling Done Right</symbol>
+    <symbol name="title2">Main principles of designing scalable systems</symbol>    
+    <symbol name="def">
+        How to approach? What is important? Micro-services? Monolithic applications? Serverless? 
+        Storage? Communication? Monitoring? Deployment? Rollbacks? Migrations? 
+    </symbol>
+    <symbol name="agenda">Agenda:</symbol>
+    <symbol name="agenda_items">
+        <ol>
+            <li>Introduction Into Scaling</li>
+            <li>Amazonian Way of Decision Making</li>
+            <li>What Is Important About Scaling</li>
+        </ol>
+    </symbol>
+    <symbol name="why_bg"><img src="assets/thinking-272677_1920.jpg" /></symbol>
+    <symbol name="why">Why?</symbol>
+    <symbol name="why_q">Why scaling is so important?</symbol>
+
+    <symbol name="imp_bg"><img src="assets/angry-man-274175_1920.jpg " /></symbol>
+    <symbol name="imp">Because it is important for your project/buisness!</symbol>
+
+    <symbol name="imp_q1">Opened the curtains at around 07:45. Couldn’t turn on lights just after 08:00. No music in bath, no Alexa news, and couldn’t turn on hot water easily. Not pleased</symbol>
+    <symbol name="imp_q2">Can't turn the lights off, can't turn the kettle on, don't know what the weather is outside, can't play any music and cannot ask how far away proximal centuri is.. FML!</symbol>
+    <symbol name="imp_q3">I had to sleep with most of the lights on last night because I had taped the light switches ON to force my family use Alexa consistently. :).</symbol>
+    <symbol name="imp_q4">All my 7 devises say try again later. 5AM alarm won't not go off until I unplugged it. When I turned it back on the alarm started again. Worst part is, the Alarm is stored locally so it still works... But you can't turn it off because Alexa doesn't respond to voice commands.. like "Alexa, stop"!!!</symbol>
+    <symbol name="imp_q5">I didn't realize how helpless I'd become without Alexa... Can't set an alarm; can't play sleep time music; can't check to see if the dog's been fed; can't turn off the bedroom lights without (gasp) using the wall switch; can't turn on the TV without finding the remote the kids buried in one of the sofas; can't set a timer for cooking the dog's breakfast; can't make a phone call from the landline without finding an extension. Should I call 911?</symbol>
+
+    <symbol name="lets_bg"><img src="assets/thumb-422558_1920.jpg" /></symbol>
+    <symbol name="lets">Let's prepare for scaling!</symbol>
+
+    <symbol name="lets_how">For what scale we should prepare? 2x? 5x? 10x?</symbol>
+    <symbol name="pockemon"><img src="assets/google-cloud-pokemon-go-1kwkj.max-700x700.PNG" /></symbol>
+
+    <symbol name="small_bg"><img src="assets/figure-257426_1920.jpg" /></symbol>
+    <symbol name="small">We're not Google/Amazon/Facebook, why we should care?</symbol>
+
+    <symbol name="save_bg"><img src="assets/money-2724241_1920.jpg" /></symbol>
+    <symbol name="save">Scaling done right can save a lot of money. Be frugal!</symbol>
+
+
+    <symbol name="dec_bg"><img src="assets/doors-1690423_1920.jpg" /></symbol>
+    <symbol name="dec">How to make a <b>right</b> decision?</symbol>
+    <symbol name="dec_2">Let's make it in Amazon Style: <b>Working Backwards</b></symbol>
+
+    <symbol name="pr_bg"><img src="assets/news-1172463_1920.jpg" /></symbol>
+    <symbol name="pr">Press Release (End State)</symbol>
+    <symbol name="pr_txt">Our App now can handle 100x more customers if needed without need to change the system (change code)</symbol>
+
+    
+    <symbol name="cust">Customer Experience</symbol>
+    <symbol name="cust_txt">Customer Experience should not be affected by the number of users that are currently using the system.</symbol>
+
+    <symbol name="alter">Alternatives/Options</symbol>
+    <symbol name="a1_pc">
+        <p>Pros:
+            <ul>
+                <li>Minimal changes of system</li>
+                <li>System is still presented as single piece, so easy to maintain</li>
+            </ul>
+        </p>
+        <p>Cons:
+            <ul>
+        <li>Data sharing/sync becomes a problem (distributed transactions, consensus)</li>
+        <li>You need to pay for resources that may be not used (bigger instance sizes)</li>
+            </ul>
+        </p>
+    </symbol>
+    <symbol name="a1"><b>Option 1</b>: Just replicate a service</symbol>
+
+    <symbol name="a2_d">Let's divide into separate services that:
+            <ol>
+                <li>has all information to function isolated</li>
+                <li>knows about each other (can send messages and notify about events)</li>
+            </ol>
+    </symbol>
+    <symbol name="a2_pc">
+            <p>Pros:
+                <ul>
+                    <li>Each micro-service can be scaled independently (so pay only for used resources)</li>
+                    <li>Easier to experiment (A/B testing)</li>
+                </ul>
+            </p>
+            <p>Cons:
+                <ul>
+                        <li> Dependency resolution</li>
+                        <li> Communication between services</li>
+                        <li> Eventual consistency vs strong consistency (consensus. 2-phase commits)</li>
+                        <li> Complex deployment</li>
+                        <li> Complex monitoring</li>
+                    </ul>
+            </p>
+        </symbol>
+        <symbol name="a2"><b>Option 2</b>: Micro-services</symbol>
+
+        <symbol name="a3"><b>Option 3</b>: Serverless</symbol>
+    <symbol name="a3_d">Whole (or part) of the system can be delegated to be run as a "function" on provider's resources. 
+    </symbol>
+    <symbol name="a3_pc">
+            <p>Pros:
+                <ul>
+                        <li>No operational overhead</li>
+                        <li>Pay only for resources used</li>
+                </ul>
+            </p>
+            <p>Cons:
+                <ul>
+                        <li>Platform limitations</li>
+                        <li>(typically) No local storage (stateless)</li>
+                        <li>Developing/Testing process (offline)</li>
+                        <li>Endpoint/Invocation management</li>
+                    </ul>
+            </p>
+        </symbol>
+    
+    <symbol name="main">No matter what option or combination is chosen, there are some very important questions
+        to be answered in case if you want to have <b>High Quality Service. </b>
+        <i>(and that's, actually, the main topic of my presentation)</i></symbol>
+
+    <symbol name="p1" class="points">
+        <div><span>1.</span> General</div>
+        <div><span>1.1</span> Vision: Describe what your service does. This should be mostly from the customer point of view</div>
+        <div><span>1.2</span> Define main activities/operations. For each - dependencies and  strict latency goals (p50,p90, p99) 
+            for typical operations (SLA)</div>
+    </symbol>
+    <symbol name="p2" class="points">
+    <div><span>2.</span> Risks</div>
+        <div><span>2.1</span> What are main operational risks</div>
+        <div><span>2.2</span> What trade-offs made</div>
+        <div><span>2.3</span> List some actions that were made to reduce radius of customers affected in case of failures</div>
+    </symbol>
+    <symbol name="p3" class="points">
+    <div><span>3.</span> Backups</div>
+        <div><span>3.1</span> Regularity of backups</div>
+        <div><span>3.2</span> Recovery procedure. </div>
+        <div><span>3.3</span> Test it. Remove data. Restore from backup.</div>
+    </symbol>
+    <symbol name="p4" class="points">
+    <div><span>4.</span> Autoscaling</div>
+        <div><span>4.1</span> Think about drawbacks (not fast enough scale up, undesirable scale downs)</div>
+        <div><span>4.2</span> Partitioning/Shards - how to separate data and how to aggregate</div>
+    </symbol>
+    <symbol name="p5" class="points">
+    <div><span>5.</span> Retries</div>
+        <div><span>5.1</span> Defining retry policy, protect from explosive retries</div>
+        <div><span>5.2</span> Test meeting SLAs during retries</div>
+        <div><span>5.3</span> Upstream retries - fail fast?</div>
+    </symbol>
+    <symbol name="p6" class="points">
+    <div><span>6.</span> Monitoring</div>
+        <div><span>6.1</span> Define main metrics. Remember: monitoring is not free. Don't forget about dependencies </div>
+            <div class="three"><span>6.1.1</span> Success/Error rates. Have max/min values (no traffic - problem). </div>
+            <div class="three"><span>6.1.2</span> Latency (p50, p90, p99)</div>
+            <div class="three"><span>6.1.3</span> Throttling (from dependencies!)</div>
+        <div><span>6.2</span> Define thresholds: from informative and to alarms</div>
+        <div><span>6.3</span> Create dashboard. Schedule regular reviews</div>
+        <div><span>6.4</span> Test it. Check memory leaks - run test for several days without restart (weekends)</div>
+        <div><span>6.5</span> Have a single Red/Green light about your service</div>
+    </symbol>
+    <symbol name="p7" class="points">
+    <div><span>7.</span> Logging</div>
+        <div><span>7.1</span> Log exceptions. Don't use exceptions for BL. </div>
+        <div><span>7.2</span> If you have micro-services, have possibility to track by single request</div>
+    </symbol>
+    <symbol name="p8" class="points">
+    <div><span>8.</span> Plan capacity. </div>
+        <div><span>8.1</span> Order resources from platform before they needed.</div>
+        <div><span>8.2</span> If you plan spike (SMM), test system under planned load</div>
+        <div><span>8.3</span> Always operate on costs ($$$)</div>
+    </symbol>
+    <symbol name="p9" class="points">
+    <div><span>9.</span> Testing</div>
+        <div><span>8.1</span> Unit/Integration/E2E test - must have.</div>
+        <div><span>8.2</span> Track freshness of test data</div>
+        <div><span>8.3</span> Canary Tests: checking what should be always OK (connectivity, access, quotas)</div>
+        <div><span>8.4</span> Canary Deployments: test on some part of your customers</div>
+        <div><span>8.5</span> Break your service. Know when and how.</div>
+    </symbol>
+    <symbol name="p10" class="points">
+    <div><span>10.</span> Automate everything (CI/CD/recreation of everything)</div>
+    </symbol>
+    <symbol name="p11" class="points">
+    <div><span>11.</span> Communication</div>
+        <div><span>11.1</span> Have clear channels to notify your customers about changes (operational, API)</div>
+        <div><span>11.2</span> Gather regular feedbacks/suggestions</div>
+        <div><span>11.3</span> Define ticketing system, triage process. </div>
+    </symbol>
+    <symbol name="final_bg"><img src="assets/feedback-1977987_1280.jpg" /></symbol>
+    <symbol name="final_title">Scaling Done Right</symbol>
+    <symbol name="logo" *ngIf="current < 5 || current > 35"><smoothie></smoothie></symbol>
+
+    <symbol name="val">Valentyn Shybanov</symbol>    
+    <symbol name="val_url">https://olostan.name</symbol>    
+    <symbol name="val_email">olostan@gmail.com</symbol>    
+
+    <symbol name="val_photo"><img src="assets/Valentyn_Shybanov_2018.jpg" /></symbol>    
+
+    <symbol name=""></symbol>
+    <symbol name=""></symbol>
+    
+<!--
+What you will hear:
+    Basics about scaling
+    Amazonian way how to approach decision making (working backwards)
+    Main points of scaling
+
+Basics (recap of what is already known)
+    Scaling:
+        Why scaling is important?
+            Alexa feedbacks
+        Preparing for scaling: 25% buffer? 50% buffer? 2x? 10x?
+            Slide about Pokemon Go
+        We are not Google/Amazon/Facebook (yet), why we should care?
+            Efficient scaling -> possibility to downscale!
+            Critical to business
+    Let's make a decision - to scale. 
+        (Amazon way: working backwards, Google - change of doing changes):
+            1. (end state, press release): "Our App now can handle 100x more customers if needed without need to change the system (change code)"
+            2. FAQ: (TBD)
+            3. Customer experience: It (The Customer) should not be affected by number of users are currently using the system.
+        (next: 6pager) (the most important - alternatives with pros/cons)
+            Alternative 1: Just replicate (monolithic) service
+                Pros:
+                    - Minimal changes of system
+                    - System is still presented as single piece, so easy to maintain
+                Cons:
+                    - Data sharing/sync becomes a problem (distributed transactions, consensus)
+                    - You need to pay for resources that may be not used (bigger instance sizes)
+            Alternative 2: Micro-services
+                Let's divide into separate services that:
+                    a) has all information to function isolated
+                    b) knows about each other (can send messages and notify about events)
+                Pros:
+                    - Each micro-service can be scaled independent (so pay only for used resources)
+                    - Easier to experiment (A/B testing)
+                Cons:
+                    - Dependency resolution
+                    - Communication between services
+                    - Eventual consistency vs strong consistency (consensus. 2-phase commits)
+                    - Complex deployment
+                    - Complex monitoring
+
+            Alternative 3: Serverless
+                Whole (or part) of the system can be delegated to be run as a "function" on provider's resources. 
+
+                Pros: 
+                    - No operational overhead
+                    - Pay only for resources used
+                Cons: 
+                    - Platform limitations
+                    - (typically) No local storage (stateless)
+                    - Developing/Testing process (offline)
+                    - Endpoint/Invocation management
+
+
+    *However*, no matter what is chosen, there are some very important topics should be checked in case if we're going to scale
+            (and that's the my presentation topic)
+
+    1. General
+        1.1 Vision: Describe what your service does. This should be mostly from the customer point of view
+        1.2 Define main activities/operations. For each - dependencies and  strict latency goals (p50,p90, p99) 
+            for typical operations (SLA)
+    2. Risks
+        2.1 What are main operational risks
+        2.2 What trade-offs made
+        2.3 List some actions that were made to reduce radius of customers affected in case of failures
+    3. Backups
+        3.1 Regularity of backups
+        3.2 Recovery procedure. 
+        3.3 Test it. Remove data. Restore from backup.
+    4. Autoscaling
+        4.1 Think about drawbacks (not fast enough scale up, undesirable scale downs)
+        4.2 Partitioning/Shards - how to separate data and how to aggregate
+    5. Retries
+        5.1 Defining retry policy, protect from explosive retries
+        5.2 Test meeting SLAs during retries
+        5.3 Upstream retries - fail fast?
+    6. Monitoring
+        6.1 Define main metrics. Remember: monitoring is not free. Don't forget about dependencies 
+          6.1.1 Success/Error rates. Have max/min values (no traffic - problem). 
+          6.1.2 Latency (p50, p90, p99)
+          6.1.3 Throttling (from dependencies!)
+        6.2 Define thresholds: from informative and to alarms
+        6.3 Create dashboard. Schedule regular reviews
+        6.4 Test it. Check memory leaks - run test for several days without restart (weekdays)
+        6.5 Have a single Red/Green light about your service
+    7. Logging
+        7.1 Log exceptions. Don't use exceptions for BL. 
+        7.2 If you have micro-services, have possibility to track by single request
+    8. Plan capacity. 
+        8.1 Order resources from platform before they needed.
+        8.2 If you plan spike (SMM), test system under planned load
+        8.3 Always operate on costs ($$$)
+    9. Testing
+        8.1 Unit/Integration/E2E test - must have.
+        8.2 Track freshness of test data
+        8.3 Canary Tests: checking what should be always OK (connectivity, access, quotas)
+        8.4 Canary Deployments: test on some part of your customers
+        8.5 Break your service. Know when and how.
+    10. Automate everything (CI/CD/recreation of everything)
+    11. Communication
+        11.1 Have clear channels to notify your customers about changes (operational, API)
+        11.2 Gather regular feedbacks/suggestions
+        11.3 Define ticketing system, triage process. 
+
+
+
+
+
+
+    
+      
+-->
+</presentation>
